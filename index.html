@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Examen de Admisión 2025-II</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      height: 100vh;
+      overflow: hidden; /* Evita scroll hasta que se ingrese */
+    }
+
+    /* LOGIN PANTALLA COMPLETA */
+    #login-page {
+      display: flex;
+      height: 100vh;
+    }
+
+    .left {
+      flex: 70%;
+      background: url('FachadaIPA.jpeg') no-repeat center center/cover;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+    }
+
+    .overlay {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(180deg, rgba(0,5,90,0.8), rgba(0,5,90,0.4));
+    }
+
+    .left-content {
+      position: relative;
+      text-align: center;
+      z-index: 2;
+    }
+
+    .left-content h1 {
+      font-size: 3rem;
+      margin: 0;
+    }
+
+    .left-content p {
+      font-size: 1.5rem;
+      margin-top: 10px;
+    }
+
+    .right {
+      flex: 30%;
+      background: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+    }
+
+    .login-box {
+      width: 80%;
+      max-width: 350px;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      text-align: center;
+      animation: fadeInRight 1s ease;
+    }
+
+    .login-box h2 {
+      margin-bottom: 20px;
+      color: #00055A;
+    }
+
+    .login-box input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      font-size: 1rem;
+    }
+
+    .login-box button {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      background: #00055A;
+      color: white;
+      font-size: 1rem;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .login-box button:hover {
+      background: #002080;
+    }
+
+    @keyframes fadeInRight {
+      from { opacity: 0; transform: translateX(50px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    /* PAGINA DE DOCUMENTOS */
+    #docs-page {
+      display: none;
+      flex-direction: column;
+      height: 100vh;
+    }
+
+    header {
+      background: #00055A;
+      color: white;
+      padding: 15px;
+      text-align: center;
+      font-size: 1.5rem;
+    }
+
+    footer {
+      background: #00055A;
+      color: white;
+      text-align: center;
+      padding: 10px;
+      margin-top: auto;
+    }
+
+    .docs-container {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 30px;
+      padding: 20px;
+    }
+
+    .doc-card {
+      background: #f9f9f9;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      text-align: center;
+      width: 220px;
+    }
+
+    .doc-card button {
+      margin-top: 15px;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 10px;
+      background: #00055A;
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .doc-card button:hover {
+      background: #002080;
+    }
+
+    /* MODAL */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.6);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      width: 80%;
+      height: 80%;
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .modal-header {
+      background: #00055A;
+      color: white;
+      padding: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-header button {
+      background: red;
+      border: none;
+      color: white;
+      font-size: 1rem;
+      padding: 5px 10px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    .modal iframe {
+      flex: 1;
+      width: 100%;
+      border: none;
+    }
+
+    .modal-footer {
+      background: #f1f1f1;
+      padding: 10px;
+      text-align: center;
+    }
+
+    .modal-footer a {
+      margin: 0 10px;
+      text-decoration: none;
+      color: #00055A;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- PANTALLA LOGIN -->
+  <div id="login-page">
+    <div class="left">
+      <div class="overlay"></div>
+      <div class="left-content">
+        <h1>Instituto Pedagógico Amauta</h1>
+        <p>Examen de Admisión 2025-II</p>
+      </div>
+    </div>
+    <div class="right">
+      <div class="login-box">
+        <h2>Acceso al Sistema</h2>
+        <input type="text" id="dni" placeholder="Ingrese su DNI">
+        <input type="password" id="password" placeholder="Ingrese su Contraseña">
+        <button onclick="login()">Ingresar</button>
+      </div>
+    </div>
+  </div>
+
+
+  
+  
+<!-- PANTALLA DOCUMENTOS -->
+<div id="docs-page">
+  <header>ADMISIÓN 2025-II</header>
+  <div class="docs-container">
+    <!-- Protocolo -->
+    <div class="doc-card">
+      <img src="protocolo.png" alt="Protocolo" class="doc-icon">
+      <h3>Protocolo</h3>
+      <button onclick="openModal('https://drive.google.com/file/d/16OiggUlOR53Bjy20KNu6XlPFUBCSv2_K/preview')">Ver PDF</button>
+    </div>
+
+    <!-- Reglamento -->
+    <div class="doc-card">
+      <img src="reglamento.png" alt="Reglamento" class="doc-icon">
+      <h3>Reglamento</h3>
+      <button onclick="openModal('https://drive.google.com/file/d/1pcjGPzw3fpkZuO8K5WAuDNc8QtC0d0-n/preview')">Ver PDF</button>
+    </div>
+
+    <!-- Requisitos -->
+    <div class="doc-card">
+      <img src="requis.png" alt="Requisitos" class="doc-icon">
+      <h3>Requisitos</h3>
+      <button onclick="openModal('https://drive.google.com/file/d/1AWLmBFkbtVByp1ItFeR5WCoTYvCJWKBj/preview')">Ver PDF</button>
+    </div>
+  </div>
+
+  <footer>© 2025 Instituto Pedagógico Amauta - Todos los derechos reservados</footer>
+</div>
+
+<!-- CSS extra para mejorar la apariencia -->
+<style>
+  .docs-container {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin: 30px;
+    flex-wrap: wrap;
+  }
+
+  .doc-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    text-align: center;
+    padding: 20px;
+    width: 200px;
+    transition: transform 0.3s ease;
+  }
+
+  .doc-card:hover {
+    transform: translateY(-8px);
+  }
+
+  .doc-icon {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    margin-bottom: 15px;
+  }
+
+  .doc-card h3 {
+    margin: 10px 0;
+    font-size: 18px;
+    color: #00055A;
+  }
+
+  .doc-card button {
+    background: #00055A;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+
+  .doc-card button:hover {
+    background: #1a1a7a;
+  }
+</style>
+
+
+  <!-- MODAL PDF -->
+  <div class="modal" id="pdfModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <span id="modal-title">Documento</span>
+        <button onclick="closeModal()">X</button>
+      </div>
+      <iframe id="pdfFrame" src=""></iframe>
+      <div class="modal-footer">
+        <a id="newTab" href="#" target="_blank">🌐 Abrir en nueva pestaña</a>
+        <a id="download" href="#" download>⬇️ Descargar</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function login() {
+      const password = document.getElementById("password").value;
+      if (password === "1234") {
+        document.getElementById("login-page").style.display = "none";
+        document.getElementById("docs-page").style.display = "flex";
+        document.body.style.overflow = "auto"; // habilita scroll en docs
+      } else {
+        alert("Contraseña incorrecta");
+      }
+    }
+
+    function openModal(pdf) {
+      document.getElementById("pdfModal").style.display = "flex";
+      document.getElementById("pdfFrame").src = pdf;
+      document.getElementById("newTab").href = pdf;
+      document.getElementById("download").href = pdf;
+      document.getElementById("modal-title").innerText = "📄 " + pdf;
+    }
+
+    function closeModal() {
+      document.getElementById("pdfModal").style.display = "none";
+      document.getElementById("pdfFrame").src = "";
+    }
+  </script>
+</body>
+</html>
+
+
